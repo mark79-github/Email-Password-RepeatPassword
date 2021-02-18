@@ -1,5 +1,5 @@
 const {constants, msg} = require('../../config/constants');
-const validator = require('validator');
+const {isEmail, normalizeEmail} = require('validator');
 
 
 module.exports = {
@@ -11,23 +11,18 @@ module.exports = {
                 errors: [],
             };
 
-            email = validator.normalizeEmail(email);
-            if (!validator.isEmail(email)) {
+            if (!isEmail(email)) {
                 user.errors.push(msg.EMAIL_IS_INVALID);
             } else {
                 user.email = email;
             }
 
-            if (password.trim().length === 0 || password.trim().length < constants.PASSWORD_MIN_LENGTH) {
-                user.errors.push(msg.PASSWORD_MIN_LENGTH);
-            }
-
-            if (password.trim() !== repeatPassword.trim()) {
+            if (password !== repeatPassword) {
                 user.errors.push(msg.CONFIRMATION_PASSWORD_ERROR);
             }
 
-            if (!constants.PASSWORD_REGEX.test(password.trim())) {
-                user.errors.push(msg.PASSWORD_ONLY_ALPHABETICAL);
+            if (!constants.PASSWORD_REGEX.test(password)) {
+                user.errors.push(msg.PASSWORD_MIN_LENGTH_ALPHABETICAL);
             }
 
             if (!user.errors.length) {
@@ -44,15 +39,15 @@ module.exports = {
                 errors: [],
             };
 
-            email = validator.normalizeEmail(email);
-            if (!validator.isEmail(email)) {
+            email = normalizeEmail(email);
+            if (!isEmail(email)) {
                 user.errors.push(msg.EMAIL_IS_INVALID);
             } else {
                 user.email = email;
             }
 
-            if (password.trim().length === 0 || password.trim().length < constants.PASSWORD_MIN_LENGTH) {
-                user.errors.push(msg.PASSWORD_MIN_LENGTH);
+            if (!constants.PASSWORD_REGEX.test(password)) {
+                user.errors.push(msg.PASSWORD_MIN_LENGTH_ALPHABETICAL);
             }
 
             if (!user.errors.length) {

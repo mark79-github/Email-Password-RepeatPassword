@@ -1,8 +1,11 @@
 <main>
-    <h2>Main</h2>
-    <a href="/users/register">Register</a>
-    <hr>
-    <a href="/users/login">Login</a>
-    <hr>
-    <a href="/users/logout">Logout</a>
+    <ul style="list-style: none; padding-left: 0">
+        {{#if isLogged}}
+            <li>{{email}}</li>
+            <li><a href="/users/logout">Logout</a></li>
+        {{else}}
+            <li><a href="/users/register">Register</a></li>
+            <li><a href="/users/login">Login</a></li>
+        {{/if}}
+    </ul>
 </main>
